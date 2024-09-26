@@ -1,21 +1,17 @@
 name: All Builds (Linux, macOS, Windows, Android, IPA, APK, AAB)
 
 on:
-  # Runs on push to any of the below branches
   push:
     branches:
       - master
       - main
-  # Runs on pull request events that target one of the below branches
   pull_request:
     branches:
       - master
       - main
-  # Allows you to run this workflow manually from the Actions tab of the repository
   workflow_dispatch:
 
 env:
-  # https://flet.dev/docs/publish#versioning
   BUILD_NUMBER: 1
   BUILD_VERSION: 1.0.0
   PYTHON_VERSION: 3.12.2
@@ -48,16 +44,14 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - name: Patch for Linux build
+      - name: Install Linux Development Dependencies
         run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev
-          flutter doctor --android-licenses || true
-          flutter doctor
 
       - name: Flet Build Linux
         run: |
-          flutter config --no-analytics 
+          flutter config --no-analytics
           flet build linux --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION
 
       - name: Upload Linux Artifact
@@ -204,6 +198,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+
+      - name: Install Android SDK Tools
+        run: |
+          sudo apt-get install -y adb
+          flutter doctor --android-licenses
 
       - name: Flet Build APK
         run: |
