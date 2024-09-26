@@ -140,7 +140,7 @@ jobs:
           if-no-files-found: warn
           overwrite: false
 
-    build-aab:
+  build-aab:
     runs-on: macos-latest
 
     steps:
@@ -152,16 +152,13 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: Upgrade pip and Install Build Dependencies
+      - name: Upgrade pip
         run: |
           python -m pip install --upgrade pip
-          pip install wheel setuptools --upgrade  # Ensure wheel and setuptools are also upgraded
-          sudo apt-get update
-          sudo apt-get install -y build-essential python3-dev libffi-dev libssl-dev
 
       - name: Install Python Dependencies
         run: |
-          pip install -r requirements.txt --verbose
+          pip install -r requirements.txt
 
       - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
         uses: subosito/flutter-action@v2
@@ -169,7 +166,8 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Accept Android Licenses
-        run: yes | flutter doctor --android-licenses
+        run: |
+          yes | flutter doctor --android-licenses
 
       - name: Flet Build AAB
         run: |
@@ -183,7 +181,6 @@ jobs:
           path: build/aab
           if-no-files-found: warn
           overwrite: false
-
 
   build-apk:
     runs-on: ubuntu-latest
