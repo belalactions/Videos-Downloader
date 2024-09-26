@@ -207,6 +207,10 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Accept Android Licenses
+        run: |
+          yes | sdkmanager --licenses
+
       - name: Install Android SDK Tools
         run: |
           sudo apt-get install -y adb
