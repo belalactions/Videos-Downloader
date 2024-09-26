@@ -1,5 +1,5 @@
 flet==0.24.1
 yt_dlp
 simple-webbrowser
-sqlite3
+db-sqlite3
 asyncio
