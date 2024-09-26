@@ -169,6 +169,11 @@ jobs:
         run: |
           yes | flutter doctor --android-licenses
 
+      - name: Install Android SDK Tools
+        run: |
+          flutter doctor --android-licenses
+          sdkmanager --install "platform-tools"
+
       - name: Flet Build AAB
         run: |
           flutter config --no-analytics
