@@ -92,6 +92,12 @@ jobs:
         run: |
           yes | flutter doctor --android-licenses
 
+      - name: Install Android SDK Tools
+        run: |
+          brew install --cask android-sdk
+          export ANDROID_HOME=/usr/local/share/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
       - name: Flet Build macOS
         run: |
           flutter config --no-analytics
@@ -171,8 +177,9 @@ jobs:
 
       - name: Install Android SDK Tools
         run: |
-          flutter doctor --android-licenses
-          sdkmanager --install "platform-tools"
+          brew install --cask android-sdk
+          export ANDROID_HOME=/usr/local/share/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
       - name: Flet Build AAB
         run: |
@@ -213,20 +220,11 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
-      - name: Setup Java JDK
-        uses: actions/setup-java@v4.2.1
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-
-      - name: Accept Android Licenses
-        run: |
-          yes | sdkmanager --licenses
-
       - name: Install Android SDK Tools
         run: |
+          sudo apt-get update
           sudo apt-get install -y adb
-          flutter doctor --android-licenses
+          yes | sdkmanager --licenses
 
       - name: Flet Build APK
         run: |
