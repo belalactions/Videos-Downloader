@@ -1,0 +1,5 @@
+flet==0.24.1
+yt_dlp
+webbrowser
+sqlite3
+asyncio
